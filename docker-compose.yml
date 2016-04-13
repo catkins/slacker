@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  horizon:
+    build:
+      dockerfile: Dockerfile.horizon
+      context: .
+    image: horizon
+    volumes:
+      - .:/app
+    links:
+      - db
+    depends_on:
+      - db
+    ports:
+      - '8181:8181'
+    environment:
+      HZ_CONNECT: 'db:28015'
+
+  db:
+    image: rethinkdb
+    ports:
+      - '8080:8080'

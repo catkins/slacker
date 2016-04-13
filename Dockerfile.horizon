@@ -1,0 +1,17 @@
+FROM node:5.10
+
+MAINTAINER Chris Atkins <christopherlionelatkins@gmail.com>
+
+# globally install horizon cli
+RUN npm install -g horizon@0.2.5-1
+
+# create path to mount in app
+RUN mkdir /app
+WORKDIR /app
+
+COPY dist /app/
+
+EXPOSE 8081
+
+# same as "hz serve --dev --bind=all" without the "--start-rethinkdb" option
+CMD ["hz", "serve", "--debug", "--insecure", "--auto-create-table", "--auto-create-index", "--serve-static=dist", "--bind=all"]
